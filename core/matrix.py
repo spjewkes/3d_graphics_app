@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+import math
+
 from core.vector import Vector4d
 
 
@@ -27,6 +29,46 @@ class Matrix:
 
     def __setitem__(self, i, v):
         self.m[i] = v
+
+    @classmethod
+    def createTransform(cls, tx, ty, tz):
+        m = cls()
+        m[12] = tx
+        m[13] = ty
+        m[14] = tz
+        return m
+
+    @classmethod
+    def createScale(cls, sx, sy, sz):
+        m = cls()
+        m[0] = sx
+        m[5] = sy
+        m[10] = sz
+        return m
+
+    @classmethod
+    def createRotateX(cls, angle):
+        m = cls()
+        m[5] = math.cos(angle)
+        m[6] = math.sin(angle)
+        m[9] = -math.sin(angle)
+        m[10] = math.cos(angle)
+
+    @classmethod
+    def createRotateY(cls, angle):
+        m = cls()
+        m[0] = math.cos(angle)
+        m[2] = -math.sin(angle)
+        m[8] = math.sin(angle)
+        m[10] = math.cos(angle)
+
+    @classmethod
+    def createRotateZ(cls, angle):
+        m = cls()
+        m[0] = math.cos(angle)
+        m[1] = math.sin(angle)
+        m[4] = -math.sin(angle)
+        m[5] = math.cos(angle)
 
     def mult(self, m):
         tmp = [0.0] * 16
