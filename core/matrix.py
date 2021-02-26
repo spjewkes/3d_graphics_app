@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+from core.vector import Vector4d
+
+
 class Matrix:
     def __init__(self):
         self.m = [0.0] * 16
@@ -60,3 +63,15 @@ class Matrix:
         tmp[15] = self.m[12] * m[3] + self.m[13] * \
             m[7] + self.m[14] * m[11] + self.m[15] * m[15]
         self.m = tmp
+
+    def multvec4d(self, v):
+        v.normalize()
+        x = self.m[0] * v[0] + self.m[1] * v[1] + \
+            self.m[2] * v[2] + self.m[3] * v[3]
+        y = self.m[4] * v[0] + self.m[5] * v[1] + \
+            self.m[6] * v[2] + self.m[7] * v[3]
+        z = self.m[8] * v[0] + self.m[9] * v[1] + \
+            self.m[10] * v[2] + self.m[11] * v[3]
+        w = self.m[12] * v[0] + self.m[13] * v[1] + \
+            self.m[14] * v[2] + self.m[15] * v[3]
+        return Vector4d(x, y, z, w)
