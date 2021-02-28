@@ -5,16 +5,69 @@ Application that runs the landscape generator program.
 """
 import argparse
 import sys
+import math
 
 from PySide2.QtWidgets import QApplication, QMainWindow, QWidget
 from PySide2.QtGui import QPainter, QImage, QColor
 
 from core.buffer import GBuffer
+from core.geometry import Mesh, Triangle
+from core.vector import Vector4d
+from core.matrix import Matrix
+
+
+def createCube():
+    vectors = [Vector4d(0, 0, 0), Vector4d(0, 1, 0), Vector4d(1, 1, 0), Vector4d(1, 0, 0),
+               Vector4d(0, 0, 1), Vector4d(0, 1, 1), Vector4d(1, 1, 1), Vector4d(1, 0, 1)]
+
+    triangles = [
+        # South
+        Triangle(vectors[0], vectors[1], vectors[2]),
+        Triangle(vectors[0], vectors[2], vectors[3]),
+        # West
+        Triangle(vectors[0], vectors[4], vectors[5]),
+        Triangle(vectors[0], vectors[5], vectors[1]),
+        # Up
+        Triangle(vectors[1], vectors[5], vectors[6]),
+        Triangle(vectors[1], vectors[6], vectors[2]),
+        # East
+        Triangle(vectors[2], vectors[6], vectors[7]),
+        Triangle(vectors[2], vectors[7], vectors[3]),
+        # Down
+        Triangle(vectors[3], vectors[7], vectors[4]),
+        Triangle(vectors[3], vectors[4], vectors[0]),
+        # North
+        Triangle(vectors[4], vectors[6], vectors[5]),
+        Triangle(vectors[4], vectors[7], vectors[6])
+    ]
+
+    mesh = Mesh(triangles)
+
+    return mesh
+
+
+def createProjection(width, height, fov_angle, zfar, znear):
+    aspect = width / height
+    fov = 1 / math.tan(fov_angle / 2)
+    q = zfar / (zfar - znear)
+
+    proj = Matrix()
+    proj[0] = aspect * fov
+    proj[5] = fov
+    proj[10] = q
+    proj[11] = 1
+    proj[14] = -znear * q
+    proj[15] = 0
+
+    return proj
 
 
 class AppWindow(QWidget):
     def __init__(self, width, height, parent=None):
         super(AppWindow, self).__init__(parent)
+
+        self.cube = createCube()
+        self.proj = createProjection(width, height, 2.0944, 10, 1)
 
         self.setFixedSize(width, height)
         self.image = GBuffer(width, height)

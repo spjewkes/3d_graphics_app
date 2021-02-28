@@ -54,8 +54,8 @@ class Vector3d:
 
 
 class Vector4d:
-    def __init__(self, x, y, z, w):
-        self.v = (x, y, z)
+    def __init__(self, x, y, z, w=1.0):
+        self.v = (x, y, z, w)
 
     def __str__(self):
         return '({0},{1},{2},{3})'.format(v[0], v[1], v[2], v[3])
