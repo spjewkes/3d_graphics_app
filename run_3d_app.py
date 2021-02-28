@@ -50,11 +50,15 @@ class AppWindow(QWidget):
     def __init__(self, width, height, parent=None):
         super(AppWindow, self).__init__(parent)
 
+        self.setFixedSize(width, height)
+        self.image = GBuffer(width, height)
+
         self.cube = createCube()
         self.proj = Matrix.createProjection(width, height, 1.5708, 1000, 0.1)
 
-        self.setFixedSize(width, height)
-        self.image = GBuffer(width, height)
+        for triangle in self.cube:
+            for point in triangle:
+                print(point)
 
     def paintEvent(self, event):
         super(AppWindow, self).paintEvent(event)

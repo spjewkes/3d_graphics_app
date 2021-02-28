@@ -8,10 +8,14 @@ class Triangle(object):
         self.p = (p0, p1, p2)
 
     def __str__(self):
-        return '({0},{1},{2})'.format(p[0], p[1], p[2])
+        return '({0},{1},{2})'.format(self.p[0], self.p[1], self.p[2])
 
     def __getitem__(self, i):
         return self.p[i]
+
+    def iterPoints(self):
+        for p in self.p:
+            yield p
 
 
 class Mesh(object):
@@ -21,3 +25,7 @@ class Mesh(object):
 
     def __getitem__(self, i):
         return self.data[i]
+
+    def iterTriangles(self):
+        for triangle in self.data:
+            yield triangle

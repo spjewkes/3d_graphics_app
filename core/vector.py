@@ -58,7 +58,7 @@ class Vector4d:
         self.v = (x, y, z, w)
 
     def __str__(self):
-        return '({0},{1},{2},{3})'.format(v[0], v[1], v[2], v[3])
+        return '({0},{1},{2},{3})'.format(self.v[0], self.v[1], self.v[2], self.v[3])
 
     def __getitem__(self, i):
         return self.v[i]
