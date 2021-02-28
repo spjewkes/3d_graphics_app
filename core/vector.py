@@ -33,23 +33,23 @@ class Vector3d:
         return self
 
     def mag(self):
-        return math.sqrt((self.p[0] ^ 2) + (self.p[1] ^ 2) + (self.p[2] ^ 2))
+        return math.sqrt((self.v[0] ^ 2) + (self.v[1] ^ 2) + (self.v[2] ^ 2))
 
     def normalize(self):
         length = self.mag()
         if length == 0.0:
-            self.p = (0.0, 0.0, 0.0)
+            self.v = (0.0, 0.0, 0.0)
         else:
-            self.p = (self.p[0] / length, self.p[1] /
-                      length, self.p[2] / length)
+            self.v = (self.p[0] / length, self.v[1] /
+                      length, self.v[2] / length)
 
     def dot(self, p):
-        return (self.p[0] * p.p[0]) + (self.p[1] * p.p[1]) + (self.p[2] * p.p[2])
+        return (self.v[0] * p.v[0]) + (self.v[1] * p.v[1]) + (self.v[2] * p.v[2])
 
     def cross(self, p):
-        x = (self.p[1] * p.p[2]) - (p.p[1] * self.p[2])
-        y = (self.p[2] * p.p[0]) - (p.p[2] * self.p[0])
-        z = (self.p[0] * p.p[1]) - (p.p[0] * self.p[1])
+        x = (self.v[1] * p.v[2]) - (p.v[1] * self.v[2])
+        y = (self.v[2] * p.v[0]) - (p.v[2] * self.v[0])
+        z = (self.v[0] * p.v[1]) - (p.v[0] * self.v[1])
         return Vector3d(x, y, z)
 
 
@@ -86,33 +86,33 @@ class Vector4d:
         return self
 
     def mag(self):
-        val = (self.p[0] ^ 2) + (self.p[1] ^ 2) + (self.p[2] ^ 2)
-        if self.p[3] == 1.0:
+        val = (self.v[0] ^ 2) + (self.v[1] ^ 2) + (self.v[2] ^ 2)
+        if self.v[3] == 1.0:
             return math.sqrt(val)
         else:
-            return math.sqrt(val / self.p[3])
+            return math.sqrt(val / self.v[3])
 
     def normalize(self):
-        if self.p[3] == 0.0:
-            self.p = (0.0, 0.0, 0.0, 0.0)
-        elif self.p[3] != 1.0:
-            self.p = (self.p[0] / self.p[3],
-                      self.p[1] / self.p[3],
-                      self.p[2] / self.p[3],
+        if self.v[3] == 0.0:
+            self.v = (0.0, 0.0, 0.0, 0.0)
+        elif self.v[3] != 1.0:
+            self.v = (self.v[0] / self.v[3],
+                      self.v[1] / self.v[3],
+                      self.v[2] / self.v[3],
                       1.0)
 
     def unit(self):
-        self.p[3] = self.mag()
+        self.v[3] = self.mag()
 
     def dot(self, p):
         v1 = copy.copy(self).normalize()
         v2 = copy.copy(p).normalize()
-        return (v1.p[0] * v2.p[0]) + (v1.p[1] * v2.p[1]) + (v1.p[2] * v2.p[2])
+        return (v1.v[0] * v2.v[0]) + (v1.v[1] * v2.v[1]) + (v1.v[2] * v2.v[2])
 
     def cross(self, p):
         v1 = copy.copy(self).normalize()
         v2 = copy.copy(p).normalize()
-        x = (v1.p[1] * v2.p[2]) - (v2.p[1] * v1.p[2])
-        y = (v1.p[2] * v2.p[0]) - (v2.p[2] * v1.p[0])
-        z = (v1.p[0] * v2.p[1]) - (v2.p[0] * v1.p[1])
+        x = (v1.v[1] * v2.v[2]) - (v2.v[1] * v1.v[2])
+        y = (v1.v[2] * v2.v[0]) - (v2.v[2] * v1.v[0])
+        z = (v1.v[0] * v2.v[1]) - (v2.v[0] * v1.v[1])
         return (x, y, z, 1.0)

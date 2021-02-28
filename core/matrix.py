@@ -53,6 +53,7 @@ class Matrix:
         m[6] = math.sin(angle)
         m[9] = -math.sin(angle)
         m[10] = math.cos(angle)
+        return m
 
     @classmethod
     def createRotateY(cls, angle):
@@ -61,6 +62,7 @@ class Matrix:
         m[2] = -math.sin(angle)
         m[8] = math.sin(angle)
         m[10] = math.cos(angle)
+        return m
 
     @classmethod
     def createRotateZ(cls, angle):
@@ -69,6 +71,7 @@ class Matrix:
         m[1] = math.sin(angle)
         m[4] = -math.sin(angle)
         m[5] = math.cos(angle)
+        return m
 
     @classmethod
     def createProjection(cls, width, height, fov_angle, zfar, znear):
@@ -83,6 +86,7 @@ class Matrix:
         proj[11] = 1
         proj[14] = -znear * q
         proj[15] = 0
+        return proj
 
     def mult(self, m):
         tmp = [0.0] * 16
@@ -120,7 +124,7 @@ class Matrix:
             m[7] + self.m[14] * m[11] + self.m[15] * m[15]
         self.m = tmp
 
-    def multvec4d(self, v):
+    def multVector4d(self, v):
         v.normalize()
         x = self.m[0] * v[0] + self.m[1] * v[1] + \
             self.m[2] * v[2] + self.m[3] * v[3]

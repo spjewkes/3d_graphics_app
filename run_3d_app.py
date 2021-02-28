@@ -58,7 +58,9 @@ class AppWindow(QWidget):
 
         for triangle in self.cube:
             for point in triangle:
-                print(point)
+                p = self.proj.multVector4d(point)
+                p.normalize()
+                print(p)
 
     def paintEvent(self, event):
         super(AppWindow, self).paintEvent(event)
