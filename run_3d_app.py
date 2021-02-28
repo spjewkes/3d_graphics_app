@@ -60,7 +60,9 @@ class AppWindow(QWidget):
             for point in triangle:
                 p = self.proj.multVector4d(point)
                 p.normalize()
-                print(p)
+                p += 1.0
+                p *= 0.5
+                p *= width
 
     def paintEvent(self, event):
         super(AppWindow, self).paintEvent(event)
