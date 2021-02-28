@@ -46,28 +46,12 @@ def createCube():
     return mesh
 
 
-def createProjection(width, height, fov_angle, zfar, znear):
-    aspect = width / height
-    fov = 1 / math.tan(fov_angle / 2)
-    q = zfar / (zfar - znear)
-
-    proj = Matrix()
-    proj[0] = aspect * fov
-    proj[5] = fov
-    proj[10] = q
-    proj[11] = 1
-    proj[14] = -znear * q
-    proj[15] = 0
-
-    return proj
-
-
 class AppWindow(QWidget):
     def __init__(self, width, height, parent=None):
         super(AppWindow, self).__init__(parent)
 
         self.cube = createCube()
-        self.proj = createProjection(width, height, 2.0944, 10, 1)
+        self.proj = Matrix.createProjection(width, height, 1.5708, 1000, 0.1)
 
         self.setFixedSize(width, height)
         self.image = GBuffer(width, height)

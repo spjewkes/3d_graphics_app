@@ -70,6 +70,20 @@ class Matrix:
         m[4] = -math.sin(angle)
         m[5] = math.cos(angle)
 
+    @classmethod
+    def createProjection(cls, width, height, fov_angle, zfar, znear):
+        aspect = width / height
+        fov = 1 / math.tan(fov_angle / 2)
+        q = zfar / (zfar - znear)
+
+        proj = cls()
+        proj[0] = aspect * fov
+        proj[5] = fov
+        proj[10] = q
+        proj[11] = 1
+        proj[14] = -znear * q
+        proj[15] = 0
+
     def mult(self, m):
         tmp = [0.0] * 16
         tmp[0] = self.m[0] * m[0] + self.m[1] * \
